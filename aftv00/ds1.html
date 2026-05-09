@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System - Personal Trainer</title>
+    
+    <!-- Fonts: Outfit (Modern Headings) and Plus Jakarta Sans (Clean Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['Outfit', 'sans-serif'],
+                        body: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6', // Primary Blue
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#0b1221', // Dark Background
+                        },
+                        accent: {
+                            500: '#00f0ff', // Cyan Neon
+                            600: '#00c3cc',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Iconify for Icons -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <style>
+        /* Base Theme */
+        body {
+            background-color: #0b1221;
+            color: #f8fafc;
+            overflow-x: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6, .font-heading {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Nav Load Animation */
+        .nav-load { opacity: 0; transform: translateY(-10px); transition: all 0.8s ease-out; }
+        .nav-load.loaded { opacity: 1; transform: translateY(0); }
+
+        /* Scroll Reveal Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        /* Staggered Delays */
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+        .delay-400 { transition-delay: 0.4s; }
+
+        /* Masked Text Reveal */
+        .text-reveal-wrapper { overflow: hidden; display: inline-block; vertical-align: bottom; }
+        .text-reveal-content {
+            transform: translateY(110%);
+            opacity: 0;
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease;
+            display: block;
+        }
+        .reveal-active .text-reveal-content { transform: translateY(0); opacity: 1; }
+
+        /* Marquee Animation */
+        .marquee-container { display: flex; overflow: hidden; user-select: none; width: 100%; white-space: nowrap; }
+        .marquee-content { flex-shrink: 0; display: flex; justify-content: space-around; min-width: 100%; animation: scroll 20s linear infinite; }
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
+        }
+
+        /* Custom UI Details */
+        .glass-panel {
+            background: rgba(30, 58, 138, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        /* Hover Effects */
+        .hover-lift {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b1221; }
+        ::-webkit-scrollbar-thumb { background: #1e3a8a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+    </style>
+</head>
+<body class="antialiased min-h-screen selection:bg-brand-500 selection:text-white pb-20">
+
+    <!-- Grid Background Pattern -->
+    <div class="fixed inset-0 pointer-events-none z-0" style="background-image: linear-gradient(rgba(30, 58, 138, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(30, 58, 138, 0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+    <div class="max-w-[1400px] mx-auto relative z-10 bg-[#0b1221]/90 backdrop-blur-sm border-x border-brand-900/50 min-h-screen">
+        
+        <!-- Navigation -->
+        <header class="sticky top-0 z-50 glass-panel border-b border-brand-800/50 nav-load">
+            <div class="flex justify-between items-center px-6 py-4">
+                <div class="flex items-center gap-2">
+                    <iconify-icon icon="ph:barbell-duotone" class="text-3xl text-accent-500 neon-text"></iconify-icon>
+                    <span class="font-heading font-bold text-xl tracking-tight">ALÊ FREITAS <span class="text-brand-400 font-light">DS</span></span>
+                </div>
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#typography" class="text-sm font-semibold tracking-wider uppercase text-brand-200 hover:text-accent-500 transition-colors">Tipografia</a>
+                    <a href="#colors" class="text-sm font-semibold tracking-wider uppercase text-brand-200 hover:text-accent-500 transition-colors">Cores</a>
+                    <a href="#components" class="text-sm font-semibold tracking-wider uppercase text-brand-200 hover:text-accent-500 transition-colors">Componentes</a>
+                    <a href="#layout" class="text-sm font-semibold tracking-wider uppercase text-brand-200 hover:text-accent-500 transition-colors">Layout</a>
+                    <a href="#motion" class="text-sm font-semibold tracking-wider uppercase text-brand-200 hover:text-accent-500 transition-colors">Motion</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- 0) Hero -->
+        <section class="relative min-h-[70vh] flex items-center justify-center border-b border-brand-900 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-brand-900/20 to-[#0b1221] z-0"></div>
+            
+            <div class="relative z-10 text-center px-6 w-full max-w-4xl">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-700 bg-brand-900/30 text-brand-300 text-xs font-bold uppercase tracking-widest mb-8 reveal delay-100">
+                    <span class="w-2 h-2 rounded-full bg-accent-500 animate-pulse"></span>
+                    Design System v2.0
+                </div>
+                
+                <h1 class="text-5xl md:text-8xl font-heading font-extrabold tracking-tighter leading-tight mb-6" id="hero-title">
+                    <span class="text-reveal-wrapper"><span class="text-reveal-content text-white">Profissional.</span></span><br/>
+                    <span class="text-reveal-wrapper"><span class="text-reveal-content delay-200 text-brand-500">Descontraído.</span></span><br/>
+                    <span class="text-reveal-wrapper"><span class="text-reveal-content delay-300 text-transparent bg-clip-text bg-gradient-to-r from-accent-500 to-brand-400">Dinâmico.</span></span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-brand-200 max-w-2xl mx-auto font-light reveal delay-400">
+                    A linguagem visual oficial para o ecossistema digital do personal trainer e youtuber Alexandre Freitas. Um equilíbrio perfeito entre autoridade técnica e energia vibrante.
+                </p>
+            </div>
+        </section>
+
+        <!-- Marquee Divider -->
+        <div class="py-4 border-b border-brand-900 bg-brand-900/20">
+            <div class="marquee-container">
+                <div class="marquee-content items-center">
+                    <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Performance</span>
+                    <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                    <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Saúde</span>
+                    <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                    <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Atitude</span>
+                    <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                    <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Energia</span>
+                    <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                </div>
+                <div class="marquee-content items-center">
+                    <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Performance</span>
+                    <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                    <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Saúde</span>
+                    <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                    <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Atitude</span>
+                    <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                    <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Energia</span>
+                    <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1) Typography -->
+        <section id="typography" class="border-b border-brand-900 pt-20 pb-10">
+            <div class="px-6 md:px-12 mb-12">
+                <div class="flex items-center gap-3 mb-2 reveal">
+                    <span class="text-accent-500 font-mono text-sm">01.</span>
+                    <h2 class="text-3xl font-heading font-bold text-white tracking-tight">Tipografia</h2>
+                </div>
+                <p class="text-brand-300 reveal delay-100">Uma combinação moderna e legível. 'Outfit' para títulos com impacto e 'Plus Jakarta Sans' para leitura agradável.</p>
+            </div>
+
+            <div class="grid grid-cols-1 divide-y divide-brand-900/50">
+                <!-- H1 -->
+                <div class="px-6 md:px-12 py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-center reveal">
+                    <div class="md:col-span-3">
+                        <span class="text-xs font-mono text-brand-400 uppercase tracking-widest">Display H1 (Outfit)</span>
+                    </div>
+                    <div class="md:col-span-6">
+                        <h1 class="text-5xl md:text-6xl font-heading font-extrabold tracking-tight text-white">Treino & Foco</h1>
+                    </div>
+                    <div class="md:col-span-3 text-left md:text-right">
+                        <span class="text-xs font-mono text-brand-500">60px / Bold / Tight</span>
+                    </div>
+                </div>
+
+                <!-- H2 -->
+                <div class="px-6 md:px-12 py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-center reveal">
+                    <div class="md:col-span-3">
+                        <span class="text-xs font-mono text-brand-400 uppercase tracking-widest">Heading H2 (Outfit)</span>
+                    </div>
+                    <div class="md:col-span-6">
+                        <h2 class="text-3xl md:text-4xl font-heading font-bold tracking-tight text-white">Evolução Constante</h2>
+                    </div>
+                    <div class="md:col-span-3 text-left md:text-right">
+                        <span class="text-xs font-mono text-brand-500">36px / Bold / Normal</span>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="px-6 md:px-12 py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-start reveal">
+                    <div class="md:col-span-3 pt-1">
+                        <span class="text-xs font-mono text-brand-400 uppercase tracking-widest">Body Text (Plus Jakarta)</span>
+                    </div>
+                    <div class="md:col-span-6">
+                        <p class="text-lg text-brand-100 leading-relaxed font-body">
+                            A disciplina é a ponte entre os seus objetivos e as suas conquistas. Mantenha a consistência, respeite o seu tempo e celebre cada pequena vitória na sua jornada.
+                        </p>
+                    </div>
+                    <div class="md:col-span-3 text-left md:text-right pt-1">
+                        <span class="text-xs font-mono text-brand-500">18px / Regular / 1.6</span>
+                    </div>
+                </div>
+
+                <!-- Label -->
+                <div class="px-6 md:px-12 py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-center reveal">
+                    <div class="md:col-span-3">
+                        <span class="text-xs font-mono text-brand-400 uppercase tracking-widest">Label / Tag (Mono)</span>
+                    </div>
+                    <div class="md:col-span-6">
+                        <span class="text-xs font-mono uppercase tracking-widest text-accent-500">Programa Intensivo</span>
+                    </div>
+                    <div class="md:col-span-3 text-left md:text-right">
+                        <span class="text-xs font-mono text-brand-500">12px / Uppercase</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2) Cores -->
+        <section id="colors" class="border-b border-brand-900 pt-20 pb-10">
+            <div class="px-6 md:px-12 mb-12">
+                <div class="flex items-center gap-3 mb-2 reveal">
+                    <span class="text-accent-500 font-mono text-sm">02.</span>
+                    <h2 class="text-3xl font-heading font-bold text-white tracking-tight">Cores & Superfícies</h2>
+                </div>
+                <p class="text-brand-300 reveal delay-100">A paleta transmite confiança (azuis profundos) e energia (ciano e azul vibrante), puxando sempre para o branco nas fontes para contraste premium.</p>
+            </div>
+
+            <div class="px-6 md:px-12 grid grid-cols-2 md:grid-cols-5 gap-6 reveal delay-200">
+                <!-- Cor 1 -->
+                <div class="flex flex-col gap-3 group">
+                    <div class="h-32 rounded-2xl bg-[#0b1221] border border-brand-800 shadow-lg transition-transform group-hover:-translate-y-2"></div>
+                    <div>
+                        <div class="font-heading font-bold text-white">Deep Space</div>
+                        <div class="text-xs font-mono text-brand-400">Background / #0B1221</div>
+                    </div>
+                </div>
+                <!-- Cor 2 -->
+                <div class="flex flex-col gap-3 group">
+                    <div class="h-32 rounded-2xl bg-[#1e3a8a] shadow-lg transition-transform group-hover:-translate-y-2"></div>
+                    <div>
+                        <div class="font-heading font-bold text-white">Brand Dark</div>
+                        <div class="text-xs font-mono text-brand-400">Surface / #1E3A8A</div>
+                    </div>
+                </div>
+                <!-- Cor 3 -->
+                <div class="flex flex-col gap-3 group">
+                    <div class="h-32 rounded-2xl bg-[#3b82f6] shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-transform group-hover:-translate-y-2"></div>
+                    <div>
+                        <div class="font-heading font-bold text-white">Electric Blue</div>
+                        <div class="text-xs font-mono text-brand-400">Primary / #3B82F6</div>
+                    </div>
+                </div>
+                <!-- Cor 4 -->
+                <div class="flex flex-col gap-3 group">
+                    <div class="h-32 rounded-2xl bg-[#00f0ff] shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-transform group-hover:-translate-y-2"></div>
+                    <div>
+                        <div class="font-heading font-bold text-white">Neon Cyan</div>
+                        <div class="text-xs font-mono text-brand-400">Accent / #00F0FF</div>
+                    </div>
+                </div>
+                <!-- Cor 5 -->
+                <div class="flex flex-col gap-3 group">
+                    <div class="h-32 rounded-2xl bg-[#f8fafc] shadow-lg transition-transform group-hover:-translate-y-2"></div>
+                    <div>
+                        <div class="font-heading font-bold text-white">Pure White</div>
+                        <div class="text-xs font-mono text-brand-400">Text / #F8FAFC</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3) Componentes -->
+        <section id="components" class="border-b border-brand-900 pt-20 pb-20">
+            <div class="px-6 md:px-12 mb-12">
+                <div class="flex items-center gap-3 mb-2 reveal">
+                    <span class="text-accent-500 font-mono text-sm">03.</span>
+                    <h2 class="text-3xl font-heading font-bold text-white tracking-tight">Componentes UI</h2>
+                </div>
+                <p class="text-brand-300 reveal delay-100">Elementos interativos com feedback visual rápido, bordas arredondadas modernas e efeitos de vidro (glassmorphism).</p>
+            </div>
+
+            <div class="px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12">
+                
+                <!-- Botões -->
+                <div class="space-y-8 reveal delay-200">
+                    <h3 class="text-sm font-mono text-brand-400 uppercase tracking-widest border-b border-brand-800 pb-2">Botões & Ações</h3>
+                    
+                    <div class="flex flex-col gap-6">
+                        <!-- Primary CTA -->
+                        <div class="flex items-center gap-6">
+                            <button class="px-8 py-4 bg-brand-500 text-white rounded-xl font-heading font-bold tracking-wide hover:bg-brand-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-300 flex items-center gap-2 group">
+                                INICIAR TREINO
+                                <iconify-icon icon="ph:arrow-right-bold" class="text-xl group-hover:translate-x-1 transition-transform"></iconify-icon>
+                            </button>
+                            <span class="text-xs font-mono text-brand-500 hidden sm:block">Primary CTA</span>
+                        </div>
+
+                        <!-- Secondary / Outline -->
+                        <div class="flex items-center gap-6">
+                            <button class="px-8 py-4 bg-transparent border-2 border-brand-500 text-brand-300 rounded-xl font-heading font-bold tracking-wide hover:border-accent-500 hover:text-accent-500 transition-all duration-300">
+                                VER PLANOS
+                            </button>
+                            <span class="text-xs font-mono text-brand-500 hidden sm:block">Secondary / Outline</span>
+                        </div>
+
+                        <!-- Ghost / Link -->
+                        <div class="flex items-center gap-6">
+                            <button class="px-4 py-2 text-brand-300 hover:text-white font-medium transition-colors flex items-center gap-2 group">
+                                <iconify-icon icon="ph:play-circle" class="text-2xl text-accent-500 group-hover:scale-110 transition-transform"></iconify-icon>
+                                Assistir Vídeo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cards & Inputs -->
+                <div class="space-y-8 reveal delay-300">
+                    <h3 class="text-sm font-mono text-brand-400 uppercase tracking-widest border-b border-brand-800 pb-2">Cards & Formulários</h3>
+                    
+                    <!-- Glass Card -->
+                    <div class="glass-panel p-6 rounded-2xl hover-lift max-w-sm">
+                        <div class="w-12 h-12 rounded-full bg-brand-500/20 flex items-center justify-center mb-4">
+                            <iconify-icon icon="ph:lightning-duotone" class="text-2xl text-accent-500"></iconify-icon>
+                        </div>
+                        <h4 class="text-xl font-heading font-bold text-white mb-2">Análise Corporal</h4>
+                        <p class="text-sm text-brand-200 mb-4">Descubra sua composição com nossa calculadora exclusiva de macros.</p>
+                        <a href="#" class="text-sm font-bold text-brand-400 hover:text-accent-500 transition-colors inline-flex items-center gap-1">
+                            Acessar Ferramenta <iconify-icon icon="ph:caret-right-bold"></iconify-icon>
+                        </a>
+                    </div>
+
+                    <!-- Input Field -->
+                    <div class="max-w-sm relative">
+                        <label class="block text-xs font-mono text-brand-300 mb-2 uppercase">Seu Email</label>
+                        <div class="relative">
+                            <input type="email" placeholder="contato@exemplo.com" class="w-full bg-[#0b1221] border border-brand-700 rounded-xl px-4 py-3 text-white placeholder:text-brand-600 focus:outline-none focus:border-accent-500 focus:ring-1 focus:ring-accent-500 transition-all">
+                            <iconify-icon icon="ph:envelope-simple" class="absolute right-4 top-1/2 -translate-y-1/2 text-brand-500 text-xl"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4) Estrutura & Layout -->
+        <section id="layout" class="border-b border-brand-900 pt-20 pb-20">
+            <div class="px-6 md:px-12 mb-12">
+                <div class="flex items-center gap-3 mb-2 reveal">
+                    <span class="text-accent-500 font-mono text-sm">04.</span>
+                    <h2 class="text-3xl font-heading font-bold text-white tracking-tight">Grid & Estrutura</h2>
+                </div>
+                <p class="text-brand-300 reveal delay-100">Bordas sutis, cantos arredondados (16px a 24px) e um sistema de grid responsivo para manter a interface organizada.</p>
+            </div>
+
+            <!-- Grid Demo -->
+            <div class="px-6 md:px-12 reveal delay-200">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="h-32 border border-brand-800 rounded-2xl bg-brand-900/30 flex items-center justify-center">
+                        <span class="text-brand-500 font-mono text-sm">Coluna 1</span>
+                    </div>
+                    <div class="h-32 border border-brand-800 rounded-2xl bg-brand-900/30 flex items-center justify-center">
+                        <span class="text-brand-500 font-mono text-sm">Coluna 2</span>
+                    </div>
+                    <div class="h-32 border border-brand-800 rounded-2xl bg-brand-900/30 flex items-center justify-center">
+                        <span class="text-brand-500 font-mono text-sm">Coluna 3</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5) Motion & Interactions -->
+        <section id="motion" class="pt-20 pb-20">
+            <div class="px-6 md:px-12 mb-12">
+                <div class="flex items-center gap-3 mb-2 reveal">
+                    <span class="text-accent-500 font-mono text-sm">05.</span>
+                    <h2 class="text-3xl font-heading font-bold text-white tracking-tight">Motion & Interação</h2>
+                </div>
+                <p class="text-brand-300 reveal delay-100">Movimentos suaves, revelações ao scroll e micro-interações que dão vida ao site.</p>
+            </div>
+
+            <div class="px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Hover Lift -->
+                <div class="glass-panel p-8 rounded-2xl text-center hover-lift cursor-pointer reveal delay-100 group">
+                    <iconify-icon icon="ph:cursor-click-duotone" class="text-4xl text-brand-400 mb-4 group-hover:text-accent-500 transition-colors"></iconify-icon>
+                    <h4 class="font-heading font-bold text-white mb-1">Hover Lift</h4>
+                    <p class="text-xs text-brand-300">Passe o mouse por cima</p>
+                </div>
+
+                <!-- Pulse / Neon -->
+                <div class="glass-panel p-8 rounded-2xl text-center cursor-pointer reveal delay-200 group">
+                    <iconify-icon icon="ph:broadcast-duotone" class="text-4xl text-brand-400 mb-4 group-hover:text-accent-500 group-hover:animate-pulse neon-glow rounded-full transition-all"></iconify-icon>
+                    <h4 class="font-heading font-bold text-white mb-1">Neon Pulse</h4>
+                    <p class="text-xs text-brand-300">Passe o mouse no ícone</p>
+                </div>
+
+                <!-- Text Reveal Demo -->
+                <div class="glass-panel p-8 rounded-2xl text-center cursor-pointer reveal delay-300 flex flex-col justify-center items-center">
+                    <span class="text-xs font-mono text-brand-400 block mb-2">Mask Reveal</span>
+                    <h2 class="text-3xl font-heading font-bold text-white reveal-active">
+                        <span class="text-reveal-wrapper"><span class="text-reveal-content">Dinâmico</span></span>
+                    </h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-brand-900 py-8 text-center px-6">
+            <iconify-icon icon="ph:barbell-duotone" class="text-3xl text-brand-500 mb-4"></iconify-icon>
+            <p class="text-brand-400 text-sm font-mono uppercase tracking-widest">AFTV Design System</p>
+            <p class="text-brand-600 text-xs mt-2">Construído para Alexandre Freitas</p>
+        </footer>
+
+    </div>
+
+    <!-- Scripts for Animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Initial Load Animations
+            setTimeout(() => {
+                document.querySelector('header').classList.add('loaded');
+            }, 100);
+
+            setTimeout(() => {
+                const heroTitle = document.getElementById('hero-title');
+                if(heroTitle) heroTitle.classList.add('reveal-active');
+            }, 300);
+
+            // 2. Scroll Observer for Reveals
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Add reveal-active to children if they exist for text masks
+                        if(entry.target.querySelector('.text-reveal-content') || entry.target.classList.contains('text-reveal-wrapper')) {
+                            entry.target.classList.add('reveal-active');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            
+            // Observe custom text reveal sections
+            document.querySelectorAll('h2').forEach(el => {
+                if(el.querySelector('.text-reveal-content')) observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

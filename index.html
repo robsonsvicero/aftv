@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alta Frequência TV | Alexandre Freitas - Personal Trainer</title>
+    
+    <!-- SEO Best Practices -->
+    <meta name="description" content="Calcule calorias, macros e treino em segundos! Análise gratuita com Alexandre Freitas, Personal Trainer e criador do Alta Frequência TV.">
+    <meta name="keywords" content="Personal Trainer, Alta Frequência TV, Emagrecimento, Análise Corporal, Transmissão ao Vivo, Eventos, Alexandre Freitas">
+    <meta name="author" content="Alexandre Freitas">
+    
+    <!-- Fonts: Outfit (Modern Headings) and Plus Jakarta Sans (Clean Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (Design System Tokens Source of Truth) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['Outfit', 'sans-serif'],
+                        body: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6', // Primary Blue
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#0b1221', // Dark Background
+                        },
+                        accent: {
+                            500: '#00f0ff', // Cyan Neon
+                            600: '#00c3cc',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Iconify for Modern SVG Icons -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <!-- Custom Styles / Animations (From ds1.html) -->
+    <style>
+        /* Base Theme */
+        body {
+            background-color: #0b1221;
+            color: #f8fafc;
+            overflow-x: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6, .font-heading {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Nav Load Animation */
+        .nav-load { opacity: 0; transform: translateY(-10px); transition: all 0.8s ease-out; }
+        .nav-load.loaded { opacity: 1; transform: translateY(0); }
+
+        /* Scroll Reveal Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        /* Staggered Delays */
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+        .delay-400 { transition-delay: 0.4s; }
+
+        /* Masked Text Reveal */
+        .text-reveal-wrapper { overflow: hidden; display: inline-block; vertical-align: bottom; }
+        .text-reveal-content {
+            transform: translateY(110%);
+            opacity: 0;
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease;
+            display: block;
+        }
+        .reveal-active .text-reveal-content { transform: translateY(0); opacity: 1; }
+
+        /* Marquee Animation */
+        .marquee-container { display: flex; overflow: hidden; user-select: none; width: 100%; white-space: nowrap; }
+        .marquee-content { flex-shrink: 0; display: flex; justify-content: space-around; min-width: 100%; animation: scroll 20s linear infinite; }
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
+        }
+
+        /* Custom UI Details (Glassmorphism & Neon) */
+        .glass-panel {
+            background: rgba(30, 58, 138, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        /* Hover Effects */
+        .hover-lift {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b1221; }
+        ::-webkit-scrollbar-thumb { background: #1e3a8a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+    </style>
+</head>
+<body class="antialiased min-h-screen selection:bg-brand-500 selection:text-white pb-0 flex flex-col">
+
+    <!-- Grid Background Pattern -->
+    <div class="fixed inset-0 pointer-events-none z-0" style="background-image: linear-gradient(rgba(30, 58, 138, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(30, 58, 138, 0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+    <!-- Main Container -->
+    <div class="max-w-[1400px] mx-auto relative z-10 bg-[#0b1221]/90 backdrop-blur-sm border-x border-brand-900/50 min-h-screen flex flex-col w-full">
+        
+        <!-- Navigation Header -->
+        <header class="sticky top-0 z-50 glass-panel border-b border-brand-800/50 nav-load">
+            <div class="flex justify-between items-center px-6 py-4">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    <iconify-icon icon="ph:barbell-duotone" class="text-3xl text-accent-500 neon-text"></iconify-icon>
+                    <span class="font-heading font-bold text-xl tracking-tight uppercase">Alta Frequência <span class="text-brand-400 font-light">TV</span></span>
+                </a>
+                
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#hero" class="text-sm font-semibold tracking-wider uppercase text-brand-200 hover:text-accent-500 transition-colors">Início</a>
+                    <a href="#servicos" class="text-sm font-semibold tracking-wider uppercase text-brand-200 hover:text-accent-500 transition-colors">Serviços</a>
+                    <a href="#midias" class="text-sm font-semibold tracking-wider uppercase text-brand-200 hover:text-accent-500 transition-colors">Mídias</a>
+                </nav>
+
+                <!-- Mobile Menu Button (Placeholder for future functionality) -->
+                <button class="md:hidden text-brand-200 hover:text-accent-500 transition-colors">
+                    <iconify-icon icon="ph:list-bold" class="text-2xl"></iconify-icon>
+                </button>
+            </div>
+        </header>
+
+        <!-- DOBRA 1: HERO SECTION -->
+        <main>
+            <section id="hero" class="relative min-h-[85vh] flex items-center justify-center border-b border-brand-900 overflow-hidden py-20">
+                <div class="absolute inset-0 bg-gradient-to-b from-brand-900/20 to-[#0b1221] z-0"></div>
+                
+                <!-- Decorative Glow Elements -->
+                <div class="absolute top-1/4 right-10 w-64 h-64 bg-accent-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+                <div class="absolute bottom-1/4 left-10 w-80 h-80 bg-brand-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+                <div class="relative z-10 text-center px-6 w-full max-w-5xl">
+                    <!-- Top Label -->
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-700 bg-brand-900/30 text-brand-300 text-xs font-bold uppercase tracking-widest mb-8 reveal delay-100 hover:border-accent-500 transition-colors cursor-default">
+                        <span class="w-2 h-2 rounded-full bg-accent-500 animate-pulse"></span>
+                        Descubra seu plano de emagrecimento
+                    </div>
+                    
+                    <!-- Main Headline -->
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-heading font-extrabold tracking-tighter leading-tight mb-6">
+                        <span class="text-reveal-wrapper"><span class="text-reveal-content text-white">Calcule calorias, macros</span></span><br/>
+                        <span class="text-reveal-wrapper"><span class="text-reveal-content delay-200 text-transparent bg-clip-text bg-gradient-to-r from-accent-500 to-brand-400">e treino em segundos!</span></span>
+                    </h1>
+                    
+                    <!-- Subheadline -->
+                    <p class="text-xl md:text-3xl font-heading font-bold text-brand-100 max-w-2xl mx-auto mb-10 reveal delay-300">
+                        Análise <span class="text-accent-500">gratuita!</span>
+                    </p>
+
+                    <!-- CTA Button -->
+                    <div class="reveal delay-400 flex justify-center">
+                        <a href="/analise-corporal" class="px-8 py-5 bg-brand-500 text-white rounded-xl font-heading font-bold tracking-widest text-lg hover:bg-brand-400 hover:shadow-[0_0_25px_rgba(59,130,246,0.6)] transition-all duration-300 flex items-center gap-3 group">
+                            CLIQUE AQUI
+                            <iconify-icon icon="ph:arrow-right-bold" class="text-2xl group-hover:translate-x-2 transition-transform"></iconify-icon>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Marquee Divider (Visual separation) -->
+            <div class="py-4 border-b border-brand-900 bg-brand-900/20">
+                <div class="marquee-container">
+                    <div class="marquee-content items-center">
+                        <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Performance</span>
+                        <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                        <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Saúde</span>
+                        <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                        <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Atitude</span>
+                        <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                        <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Energia</span>
+                        <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                    </div>
+                    <!-- Duplicate for seamless loop -->
+                    <div class="marquee-content items-center">
+                        <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Performance</span>
+                        <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                        <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Saúde</span>
+                        <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                        <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Atitude</span>
+                        <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                        <span class="text-sm font-mono uppercase tracking-widest text-brand-400 mx-8">Energia</span>
+                        <iconify-icon icon="ph:star-four-fill" class="text-accent-500"></iconify-icon>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOBRA 2: SERVIÇOS SECTION -->
+            <section id="servicos" class="border-b border-brand-900 pt-24 pb-24 relative">
+                <div class="px-6 md:px-12 mb-16 text-center">
+                    <div class="inline-flex items-center gap-3 mb-4 reveal justify-center">
+                        <span class="text-accent-500 font-mono text-sm">01.</span>
+                        <h2 class="text-4xl md:text-5xl font-heading font-bold text-white tracking-tight">Serviços</h2>
+                    </div>
+                    <p class="text-brand-300 reveal delay-100 max-w-2xl mx-auto text-lg">Soluções completas e profissionais para seus objetivos e projetos.</p>
+                </div>
+
+                <div class="px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- Card 1: Alexandre Freitas / Personal Trainer -->
+                    <div class="glass-panel rounded-2xl hover-lift overflow-hidden flex flex-col reveal delay-100 group">
+                        <div class="h-64 overflow-hidden relative">
+                            <div class="absolute inset-0 bg-brand-900/50 group-hover:bg-transparent transition-colors z-10"></div>
+                            <!-- Image placeholder matching design system aesthetics -->
+                            <div class="w-full h-full bg-gradient-to-br from-brand-800 to-[#0b1221] flex items-center justify-center">
+                                <iconify-icon icon="ph:person-simple-run-duotone" class="text-7xl text-brand-400 group-hover:scale-110 group-hover:text-accent-500 transition-all duration-500"></iconify-icon>
+                            </div>
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <div class="flex items-center gap-2 mb-3 text-accent-500 font-mono text-xs uppercase tracking-widest">
+                                <iconify-icon icon="ph:map-pin-line"></iconify-icon> Zona Norte / Sul / Oeste
+                            </div>
+                            <h3 class="text-2xl font-heading font-bold text-white mb-2">Alexandre Freitas</h3>
+                            <p class="text-brand-400 font-medium mb-4">Personal Trainer</p>
+                            <p class="text-brand-200 text-sm leading-relaxed mb-6 flex-grow">
+                                Personal Trainer, On-Line ou Presencial, Bioimpedância e Avaliação Física.
+                            </p>
+                            <div class="flex items-center justify-between mt-auto pt-4 border-t border-brand-800/50">
+                                <a href="https://instagram.com/23alexandrefreitas" target="_blank" class="flex items-center gap-2 text-sm font-bold text-brand-300 hover:text-accent-500 transition-colors">
+                                    <iconify-icon icon="ph:instagram-logo" class="text-xl"></iconify-icon>
+                                    @23alexandrefreitas
+                                </a>
+                            </div>
+                            <a href="/analise-corporal" class="mt-6 w-full py-3 bg-brand-900/50 hover:bg-brand-500 border border-brand-700 hover:border-brand-500 text-white text-center rounded-xl text-sm font-bold tracking-wider transition-all duration-300">
+                                ANÁLISE CORPORAL
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Transmissões ao vivo -->
+                    <div class="glass-panel rounded-2xl hover-lift overflow-hidden flex flex-col reveal delay-200 group">
+                        <div class="h-64 overflow-hidden relative">
+                            <div class="absolute inset-0 bg-brand-900/50 group-hover:bg-transparent transition-colors z-10"></div>
+                            <div class="w-full h-full bg-gradient-to-br from-brand-800 to-[#0b1221] flex items-center justify-center">
+                                <iconify-icon icon="ph:video-camera-duotone" class="text-7xl text-brand-400 group-hover:scale-110 group-hover:text-accent-500 transition-all duration-500"></iconify-icon>
+                            </div>
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <div class="flex items-center gap-2 mb-3 text-accent-500 font-mono text-xs uppercase tracking-widest">
+                                <iconify-icon icon="ph:microphone-stage"></iconify-icon> Gravações & Lives
+                            </div>
+                            <h3 class="text-2xl font-heading font-bold text-white mb-2">Transmissões ao vivo</h3>
+                            <p class="text-brand-400 font-medium mb-4">Podcast ou Gravações em Geral</p>
+                            <p class="text-brand-200 text-sm leading-relaxed mb-6 flex-grow">
+                                Realizamos Gravações em Estúdio ou no Próprio Local. Ao Vivo ou Gravado.
+                            </p>
+                            <div class="flex items-center justify-between mt-auto pt-4 border-t border-brand-800/50">
+                                <a href="https://instagram.com/altafrequencia.tv" target="_blank" class="flex items-center gap-2 text-sm font-bold text-brand-300 hover:text-accent-500 transition-colors">
+                                    <iconify-icon icon="ph:instagram-logo" class="text-xl"></iconify-icon>
+                                    @altafrequencia.tv
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Eventos -->
+                    <div class="glass-panel rounded-2xl hover-lift overflow-hidden flex flex-col reveal delay-300 group">
+                        <div class="h-64 overflow-hidden relative">
+                            <div class="absolute inset-0 bg-brand-900/50 group-hover:bg-transparent transition-colors z-10"></div>
+                            <div class="w-full h-full bg-gradient-to-br from-brand-800 to-[#0b1221] flex items-center justify-center">
+                                <iconify-icon icon="ph:speaker-hifi-duotone" class="text-7xl text-brand-400 group-hover:scale-110 group-hover:text-accent-500 transition-all duration-500"></iconify-icon>
+                            </div>
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <div class="flex items-center gap-2 mb-3 text-accent-500 font-mono text-xs uppercase tracking-widest">
+                                <iconify-icon icon="ph:music-notes"></iconify-icon> Produção Sonora
+                            </div>
+                            <h3 class="text-2xl font-heading font-bold text-white mb-2">Eventos</h3>
+                            <p class="text-brand-400 font-medium mb-4">Palestras, Eventos ou Festas</p>
+                            <p class="text-brand-200 text-sm leading-relaxed mb-6 flex-grow">
+                                Som para Show com banda, Palestras e Festas Indoor.
+                            </p>
+                            <div class="flex items-center justify-between mt-auto pt-4 border-t border-brand-800/50">
+                                <a href="https://instagram.com/altafrequencia.tv" target="_blank" class="flex items-center gap-2 text-sm font-bold text-brand-300 hover:text-accent-500 transition-colors">
+                                    <iconify-icon icon="ph:instagram-logo" class="text-xl"></iconify-icon>
+                                    @altafrequencia.tv
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- DOBRA 3: MÍDIAS SOCIAIS E ALTA FREQUÊNCIA -->
+            <section id="midias" class="pt-24 pb-32 relative">
+                <div class="px-6 md:px-12 text-center mb-16">
+                    <div class="inline-flex items-center gap-3 mb-4 reveal justify-center">
+                        <span class="text-accent-500 font-mono text-sm">02.</span>
+                        <h2 class="text-4xl md:text-5xl font-heading font-bold text-white tracking-tight">Mídias Sociais</h2>
+                    </div>
+                    <p class="text-brand-300 reveal delay-100 max-w-2xl mx-auto text-lg mb-8">Acompanhe nosso conteúdo em todas as plataformas e faça parte da comunidade.</p>
+                    
+                    <!-- Social Links -->
+                    <div class="flex justify-center gap-6 reveal delay-200">
+                        <a href="https://www.youtube.com/channel/UCvQXu-QwlVDgkf_OrElDhMA" target="_blank" aria-label="Acesse nosso canal no YouTube" class="w-16 h-16 rounded-full glass-panel flex items-center justify-center hover-lift hover:border-accent-500 group transition-colors">
+                            <iconify-icon icon="ph:youtube-logo-fill" class="text-3xl text-brand-400 group-hover:text-accent-500 transition-colors"></iconify-icon>
+                        </a>
+                        <a href="https://www.instagram.com/altafrequencia.tv/" target="_blank" aria-label="Acesse nosso Instagram" class="w-16 h-16 rounded-full glass-panel flex items-center justify-center hover-lift hover:border-accent-500 group transition-colors">
+                            <iconify-icon icon="ph:instagram-logo-fill" class="text-3xl text-brand-400 group-hover:text-accent-500 transition-colors"></iconify-icon>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Banner & YouTube Widget Placeholder -->
+                <div class="px-6 md:px-12 reveal delay-300">
+                    <div class="glass-panel rounded-3xl p-8 md:p-16 border border-brand-700/50 bg-gradient-to-br from-brand-900/40 to-[#0b1221] relative overflow-hidden text-center max-w-6xl mx-auto">
+                        <!-- Background Glow effect -->
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-3xl bg-brand-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+                        
+                        <div class="relative z-10">
+                            <h3 class="text-3xl md:text-5xl font-heading font-extrabold text-white mb-4">Descubra o Lado <span class="text-accent-500">ON</span> da Vida!</h3>
+                            <p class="text-brand-200 mb-10 max-w-xl mx-auto">Inscreva-se no canal Alta Frequência TV e não perca nossos novos episódios, dicas de treino, podcasts e muito mais.</p>
+                            
+                            <!-- YouTube Video / Widget Placeholder -->
+                            <a href="https://www.youtube.com/channel/UCvQXu-QwlVDgkf_OrElDhMA" target="_blank" class="block aspect-video max-w-3xl mx-auto bg-[#0b1221] border border-brand-800 rounded-2xl overflow-hidden shadow-2xl relative group hover-lift hover:border-brand-500 transition-colors cursor-pointer">
+                                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=3269&auto=format&fit=crop')] bg-cover bg-center opacity-40 group-hover:opacity-30 transition-opacity"></div>
+                                <div class="absolute inset-0 flex items-center justify-center bg-brand-900/30">
+                                    <iconify-icon icon="ph:play-circle-fill" class="text-7xl text-brand-400 group-hover:text-accent-500 group-hover:scale-110 transition-all duration-300 neon-glow rounded-full"></iconify-icon>
+                                </div>
+                                <div class="absolute bottom-4 left-4 flex justify-between items-center text-sm font-heading font-bold">
+                                    <span class="bg-black/80 text-white px-4 py-2 rounded-lg flex items-center gap-2 backdrop-blur-md">
+                                        <iconify-icon icon="ph:youtube-logo-fill" class="text-accent-500 text-lg"></iconify-icon>
+                                        Alta Frequência TV
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-auto border-t border-brand-900 py-12 text-center px-6 glass-panel">
+            <div class="flex justify-center mb-6">
+                <iconify-icon icon="ph:barbell-duotone" class="text-4xl text-brand-500 neon-text"></iconify-icon>
+            </div>
+            
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="https://wa.me/5511973237060" target="_blank" aria-label="Contato via WhatsApp" class="text-brand-400 hover:text-accent-500 transition-colors hover-lift">
+                    <iconify-icon icon="ph:whatsapp-logo-duotone" class="text-3xl"></iconify-icon>
+                </a>
+                <a href="https://instagram.com/23alexandrefreitas" target="_blank" aria-label="Siga no Instagram" class="text-brand-400 hover:text-accent-500 transition-colors hover-lift">
+                    <iconify-icon icon="ph:instagram-logo-duotone" class="text-3xl"></iconify-icon>
+                </a>
+                <a href="mailto:contato@aftv.com.br" aria-label="Envie um email" class="text-brand-400 hover:text-accent-500 transition-colors hover-lift">
+                    <iconify-icon icon="ph:envelope-duotone" class="text-3xl"></iconify-icon>
+                </a>
+            </div>
+            
+            <p class="text-brand-300 text-sm font-mono uppercase tracking-widest mb-2">Alta Frequência TV</p>
+            <p class="text-brand-600 text-xs">© 2026 Alexandre Freitas. Todos os direitos reservados.</p>
+        </footer>
+
+    </div>
+
+    <!-- Scripts for Scroll Animations and Interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Initial Load Animations
+            setTimeout(() => {
+                const header = document.querySelector('header');
+                if(header) header.classList.add('loaded');
+            }, 100);
+
+            setTimeout(() => {
+                // Activate reveals in the hero section immediately
+                document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('active'));
+                const heroTitle = document.querySelector('#hero h1');
+                if(heroTitle) heroTitle.classList.add('reveal-active');
+            }, 300);
+
+            // 2. Intersection Observer for Scroll Reveals
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Add reveal-active to children if they exist for text masks
+                        if(entry.target.querySelector('.text-reveal-content') || entry.target.classList.contains('text-reveal-wrapper')) {
+                            entry.target.classList.add('reveal-active');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements with the 'reveal' class
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            
+            // Observe custom text reveal sections (headings)
+            document.querySelectorAll('h2, h3').forEach(el => {
+                if(el.querySelector('.text-reveal-content')) observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

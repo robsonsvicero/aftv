@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      html {
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+      }
+      .g-ytsubscribe {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="g-ytsubscribe"></div>
+    <script>
+      (function () {
+        var elem = document.querySelector('.g-ytsubscribe');
+        var params = window.location.search.substring(1).split('&');
+
+        for (var i = 0; i < params.length; i++){
+          var param = params[i].split('=');
+          var paramName = param[0];
+          var paramValue = decodeURIComponent(param[1]);
+
+          if (paramName === 'channel') {
+            elem.dataset.channel = paramValue;
+            elem.dataset.channelid = paramValue;
+          } else if (paramName === 'layout') {
+            elem.dataset.layout = paramValue;
+          } else if (paramName === 'theme') {
+            elem.dataset.theme = paramValue;
+          }
+        }
+      }());
+    </script>
+    <script src="https://apis.google.com/js/plusone.js"></script>
+  </body>
+</html>
